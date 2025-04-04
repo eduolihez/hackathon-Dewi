@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { CheckCircle2, Trophy } from "lucide-react"
+import { CheckCircle2, Sprout } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Card, CardContent } from "@/components/ui/card"
@@ -108,7 +108,7 @@ export function Challenges() {
                   <p className="text-sm text-muted-foreground">{challenge.description}</p>
                 </div>
                 <div className="flex items-center">
-                  <Trophy className="h-4 w-4 text-amber-500 mr-1" />
+                  <Sprout className="h-4 w-4 text-green-500 mr-1" />
                   <span className="text-sm font-medium">{challenge.points} pts</span>
                 </div>
               </div>

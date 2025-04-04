@@ -51,6 +51,6 @@ export function useSensorData() {
     return () => clearInterval(intervalId)
   }, [])
 
-  return { sensorData, isLoading, error }
+  return { sensorData, isLoading, error, setSensorData }
 }
 

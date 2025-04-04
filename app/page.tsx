@@ -16,7 +16,7 @@ import { useSensorData } from "@/hooks/use-sensor-data"
 
 export default function Dashboard() {
   const router = useRouter()
-  const { sensorData, isLoading, error } = useSensorData()
+  const { sensorData, isLoading, error, setSensorData } = useSensorData()
   const [points, setPoints] = useState(120)
   const [voiceActive, setVoiceActive] = useState(false)
 
@@ -59,59 +59,25 @@ export default function Dashboard() {
               <p className="text-sm text-muted-foreground">
                 {sensorData?.clau === "oberta" ? "Aixeta oberta" : "Aixeta tancada"}
               </p>
+              <Button
+                variant={sensorData?.clau === "oberta" ? "destructive" : "default"}
+                size="sm"
+                className="mt-2"
+                onClick={() => {
+                  // En una implementación real, esto enviaría una solicitud a la API
+                  if (sensorData) {
+                    const newSensorData = {
+                      ...sensorData,
+                      clau: sensorData.clau === "oberta" ? "tancada" : "oberta",
+                    }
+                    // Simular actualización de datos
+                    setSensorData(newSensorData)
+                  }
+                }}
+              >
+                {sensorData?.clau === "oberta" ? "Tancar aixeta" : "Obrir aixeta"}
+              </Button>
             </div>
-          </CardContent>
-        </Card>
-
-        <Card className="md:col-span-2">
-          <CardContent className="p-6">
-            <h2 className="text-xl font-semibold mb-4">Anàlisi de consum</h2>
-            <div className="h-[250px]">
-              <ConsumptionChart />
-            </div>
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="flex flex-col">
-                <span className="text-sm text-muted-foreground">El teu consum</span>
-                <span className="text-lg font-semibold">{dailyConsumption} L/dia</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-sm text-muted-foreground">Mitjana Mataró</span>
-                <span className="text-lg font-semibold">{mataroAverage} L/dia</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-sm text-muted-foreground">Mitjana Catalunya</span>
-                <span className="text-lg font-semibold">{cataloniaAverage} L/dia</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <Card className="md:col-span-1">
-          <CardContent className="p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Punts EcoAigua</h2>
-              <Award className="h-6 w-6 text-amber-500" />
-            </div>
-            <div className="text-center mb-4">
-              <p className="text-4xl font-bold text-amber-500">{points}</p>
-              <p className="text-sm text-muted-foreground">Punts acumulats</p>
-            </div>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Nivell actual</span>
-                <span className="font-medium">Eco-Conscient</span>
-              </div>
-              <Progress value={65} className="h-2" />
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>0</span>
-                <span>Proper nivell: 200 pts</span>
-              </div>
-            </div>
-            <Button className="w-full mt-4" onClick={() => router.push("/rewards")}>
-              Veure recompenses
-            </Button>
           </CardContent>
         </Card>
 
@@ -165,6 +131,58 @@ export default function Dashboard() {
                 </div>
               </TabsContent>
             </Tabs>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <Card className="md:col-span-1">
+          <CardContent className="p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Punts EcoAigua</h2>
+              <Award className="h-6 w-6 text-amber-500" />
+            </div>
+            <div className="text-center mb-4">
+              <p className="text-4xl font-bold text-amber-500">{points}</p>
+              <p className="text-sm text-muted-foreground">Punts acumulats</p>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Nivell actual</span>
+                <span className="font-medium">Eco-Conscient</span>
+              </div>
+              <Progress value={65} className="h-2" />
+              <div className="flex justify-between text-xs text-muted-foreground">
+                <span>0</span>
+                <span>Proper nivell: 200 pts</span>
+              </div>
+            </div>
+            <Button className="w-full mt-4" onClick={() => router.push("/rewards")}>
+              Veure recompenses
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="md:col-span-2">
+          <CardContent className="p-6">
+            <h2 className="text-xl font-semibold mb-4">Anàlisi de consum</h2>
+            <div className="h-[250px]">
+              <ConsumptionChart />
+            </div>
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="flex flex-col">
+                <span className="text-sm text-muted-foreground">El teu consum</span>
+                <span className="text-lg font-semibold">{dailyConsumption} L/dia</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-sm text-muted-foreground">Mitjana Mataró</span>
+                <span className="text-lg font-semibold">{mataroAverage} L/dia</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-sm text-muted-foreground">Mitjana Catalunya</span>
+                <span className="text-lg font-semibold">{cataloniaAverage} L/dia</span>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>

@@ -1,42 +1,42 @@
 "use client"
 
 import { useState } from "react"
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid } from "recharts"
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Legend } from "recharts"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 
-// Dades simulades
+// Dades simulades amb comparatives
 const dailyData = [
-  { date: "Dll", consumption: 85 },
-  { date: "Dm", consumption: 92 },
-  { date: "Dc", consumption: 78 },
-  { date: "Dj", consumption: 95 },
-  { date: "Dv", consumption: 88 },
-  { date: "Ds", consumption: 72 },
-  { date: "Dg", consumption: 65 },
+  { date: "Dll", consumption: 85, mataro: 92.95, catalunya: 105 },
+  { date: "Dm", consumption: 92, mataro: 92.95, catalunya: 105 },
+  { date: "Dc", consumption: 78, mataro: 92.95, catalunya: 105 },
+  { date: "Dj", consumption: 95, mataro: 92.95, catalunya: 105 },
+  { date: "Dv", consumption: 88, mataro: 92.95, catalunya: 105 },
+  { date: "Ds", consumption: 72, mataro: 92.95, catalunya: 105 },
+  { date: "Dg", consumption: 65, mataro: 92.95, catalunya: 105 },
 ]
 
 const monthlyData = [
-  { date: "Gen", consumption: 2650 },
-  { date: "Feb", consumption: 2450 },
-  { date: "Mar", consumption: 2800 },
-  { date: "Abr", consumption: 2600 },
-  { date: "Mai", consumption: 2400 },
-  { date: "Jun", consumption: 2200 },
-  { date: "Jul", consumption: 2900 },
-  { date: "Ago", consumption: 3100 },
-  { date: "Set", consumption: 2700 },
-  { date: "Oct", consumption: 2500 },
-  { date: "Nov", consumption: 2300 },
-  { date: "Des", consumption: 2400 },
+  { date: "Gen", consumption: 2650, mataro: 2790, catalunya: 3150 },
+  { date: "Feb", consumption: 2450, mataro: 2790, catalunya: 3150 },
+  { date: "Mar", consumption: 2800, mataro: 2790, catalunya: 3150 },
+  { date: "Abr", consumption: 2600, mataro: 2790, catalunya: 3150 },
+  { date: "Mai", consumption: 2400, mataro: 2790, catalunya: 3150 },
+  { date: "Jun", consumption: 2200, mataro: 2790, catalunya: 3150 },
+  { date: "Jul", consumption: 2900, mataro: 2790, catalunya: 3150 },
+  { date: "Ago", consumption: 3100, mataro: 2790, catalunya: 3150 },
+  { date: "Set", consumption: 2700, mataro: 2790, catalunya: 3150 },
+  { date: "Oct", consumption: 2500, mataro: 2790, catalunya: 3150 },
+  { date: "Nov", consumption: 2300, mataro: 2790, catalunya: 3150 },
+  { date: "Des", consumption: 2400, mataro: 2790, catalunya: 3150 },
 ]
 
 const yearlyData = [
-  { date: "2019", consumption: 32500 },
-  { date: "2020", consumption: 31200 },
-  { date: "2021", consumption: 29800 },
-  { date: "2022", consumption: 28500 },
-  { date: "2023", consumption: 27200 },
+  { date: "2019", consumption: 32500, mataro: 33900, catalunya: 38300 },
+  { date: "2020", consumption: 31200, mataro: 33900, catalunya: 38300 },
+  { date: "2021", consumption: 29800, mataro: 33900, catalunya: 38300 },
+  { date: "2022", consumption: 28500, mataro: 33900, catalunya: 38300 },
+  { date: "2023", consumption: 27200, mataro: 33900, catalunya: 38300 },
 ]
 
 export function ConsumptionChart() {
@@ -59,8 +59,16 @@ export function ConsumptionChart() {
           <ChartContainer
             config={{
               consumption: {
-                label: "Consum",
-                color: "hsl(var(--chart-1))",
+                label: "El teu consum",
+                color: "hsl(196, 94%, 48%)",
+              },
+              mataro: {
+                label: "Mitjana Mataró",
+                color: "hsl(217, 91%, 60%)",
+              },
+              catalunya: {
+                label: "Mitjana Catalunya",
+                color: "hsl(142, 71%, 45%)",
               },
             }}
             className="h-full"
@@ -80,6 +88,7 @@ export function ConsumptionChart() {
                 }}
               />
               <ChartTooltip content={<ChartTooltipContent />} />
+              <Legend />
               <Area
                 type="monotone"
                 dataKey="consumption"
@@ -87,6 +96,27 @@ export function ConsumptionChart() {
                 fillOpacity={0.2}
                 stroke="var(--color-consumption)"
                 strokeWidth={2}
+                name="El teu consum"
+              />
+              <Area
+                type="monotone"
+                dataKey="mataro"
+                fill="var(--color-mataro)"
+                fillOpacity={0.1}
+                stroke="var(--color-mataro)"
+                strokeWidth={2}
+                strokeDasharray="5 5"
+                name="Mitjana Mataró"
+              />
+              <Area
+                type="monotone"
+                dataKey="catalunya"
+                fill="var(--color-catalunya)"
+                fillOpacity={0.1}
+                stroke="var(--color-catalunya)"
+                strokeWidth={2}
+                strokeDasharray="3 3"
+                name="Mitjana Catalunya"
               />
             </AreaChart>
           </ChartContainer>
