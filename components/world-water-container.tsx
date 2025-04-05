@@ -24,9 +24,9 @@ export function WorldWaterContainer({
     const pipeRadius = 15
 
     // Pipe colors
-    const pipeColor = "#333333"
-    const pipeDarkColor = "#222222"
-    const pipeInnerColor = "#111111"
+    const pipeColor = "#777777"
+    const pipeDarkColor = "#555555"
+    const pipeInnerColor = "#444444"
 
     // Draw the main horizontal pipe
     ctx.beginPath()

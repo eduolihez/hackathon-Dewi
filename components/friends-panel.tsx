@@ -101,11 +101,64 @@ export function FriendsPanel({ onClose }: FriendsPanelProps) {
       </div>
 
       {/* Pestanyes */}
-      <Tabs defaultValue="friends" className="w-full">
-        <TabsList className="grid grid-cols-2 w-full">
+      <Tabs defaultValue="gota-a-gota" className="w-full">
+        <TabsList className="grid grid-cols-3 w-full">
+          <TabsTrigger value="gota-a-gota">Gota a Gota</TabsTrigger>
           <TabsTrigger value="friends">Amistats</TabsTrigger>
           <TabsTrigger value="requests">Sol·licituds</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="gota-a-gota" className="p-0">
+          <div className="overflow-y-auto" style={{ height: isMobile ? "calc(100vh - 180px)" : "calc(100vh - 160px)" }}>
+            <div className="p-3 bg-sky-50 mb-3">
+              <h3 className="font-medium text-sm mb-1">Lliga Municipal d'Estalvi d'Aigua</h3>
+              <p className="text-xs text-muted-foreground">
+                Classificació dels municipis segons els punts d'estalvi acumulats
+              </p>
+            </div>
+            <ul className="divide-y">
+              {[
+                { name: "Mataró", points: 12450, position: 1, change: "up" },
+                { name: "Barcelona", points: 11200, position: 2, change: "same" },
+                { name: "Girona", points: 10800, position: 3, change: "up" },
+                { name: "Tarragona", points: 9750, position: 4, change: "down" },
+                { name: "Lleida", points: 9200, position: 5, change: "same" },
+                { name: "Sabadell", points: 8900, position: 6, change: "up" },
+                { name: "Terrassa", points: 8750, position: 7, change: "down" },
+                { name: "Badalona", points: 8300, position: 8, change: "same" },
+                { name: "Reus", points: 7950, position: 9, change: "up" },
+                { name: "Manresa", points: 7800, position: 10, change: "down" },
+              ].map((city) => (
+                <li key={city.name} className={`p-3 hover:bg-muted/50 ${city.position === 1 ? "bg-sky-50" : ""}`}>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center justify-center w-6 h-6 rounded-full bg-sky-100 text-sky-700 text-xs font-medium">
+                        {city.position}
+                      </div>
+                      <div>
+                        <p className="font-medium text-sm">{city.name}</p>
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                          {city.change === "up" && <span className="text-green-500">▲</span>}
+                          {city.change === "down" && <span className="text-red-500">▼</span>}
+                          {city.change === "same" && <span className="text-gray-400">•</span>}
+                          <span>{city.points.toLocaleString()} punts</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      {city.position === 1 && (
+                        <span className="inline-flex items-center rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
+                          <Award className="h-3 w-3 mr-1" />
+                          Líder
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </TabsContent>
 
         <TabsContent value="friends" className="p-0">
           <div className="overflow-y-auto" style={{ height: isMobile ? "calc(100vh - 180px)" : "calc(100vh - 160px)" }}>
