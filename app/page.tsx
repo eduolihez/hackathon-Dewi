@@ -2,18 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import {
-  Droplet,
-  User,
-  CloudRain,
-  VolumeIcon as VolumeUp,
-  Volume2,
-  Power,
-  PowerOff,
-  Users,
-  Home,
-  Sprout,
-} from "lucide-react"
+import { User, CloudRain, VolumeIcon as VolumeUp, Volume2, Power, PowerOff, Users, Home, Sprout } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -24,6 +13,7 @@ import { WaterFinder } from "@/components/water-finder"
 import { VoiceAssistant } from "@/components/voice-assistant"
 import { Challenges } from "@/components/challenges"
 import { WaterReservoirs } from "@/components/water-reservoirs"
+import { DewiLogo } from "@/components/dewi-logo"
 import { useSensorData } from "@/hooks/use-sensor-data"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useMediaQuery } from "@/hooks/use-mobile"
@@ -81,8 +71,7 @@ export default function Dashboard() {
     <div className="container mx-auto px-4 py-6 relative">
       <header className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-2">
-          <Droplet className="h-8 w-8 text-sky-500" />
-          {!isMobile && <h1 className="text-2xl font-bold">EstalviAigua</h1>}
+          <DewiLogo />
         </div>
 
         <nav className="flex items-center gap-2 md:gap-4">
@@ -307,5 +296,5 @@ export default function Dashboard() {
 }
 
 // Importar el icono ShoppingBag
-import { ShoppingBag } from "lucide-react"
+import { Droplet, ShoppingBag } from "lucide-react"
 

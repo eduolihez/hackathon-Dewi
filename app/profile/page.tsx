@@ -14,6 +14,7 @@ import { Slider } from "@/components/ui/slider"
 import { useSensorData } from "@/hooks/use-sensor-data"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
+import { DewiLogo } from "@/components/dewi-logo"
 
 export default function ProfilePage() {
   const router = useRouter()
@@ -103,7 +104,8 @@ export default function ProfilePage() {
         <Button variant="ghost" size="icon" onClick={() => router.push("/")}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
-        <h1 className="text-2xl font-bold">El meu perfil</h1>
+        <DewiLogo />
+        <h1 className="text-2xl font-bold ml-2">El meu perfil</h1>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -17,7 +17,7 @@ export function VoiceAssistant({ onClose }: VoiceAssistantProps) {
   // Simular respostes de l'assistent
   const getAssistantResponse = (query: string) => {
     const responses: Record<string, string> = {
-      hola: "Hola, sóc el teu assistent d'EstalviAigua. En què puc ajudar-te?",
+      hola: "Hola, sóc el teu assistent de Dewi. En què puc ajudar-te?",
       consum: "El teu consum actual és de 85 litres per dia, un 19% menys que la mitjana de Catalunya.",
       consells:
         "Per estalviar aigua, pots tancar l'aixeta mentre et rentes les dents, dutxar-te en lloc de banyar-te i reutilitzar l'aigua de la rentadora per al vàter.",

@@ -8,6 +8,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
+import { DewiLogo } from "@/components/dewi-logo"
 
 export default function RewardsPage() {
   const router = useRouter()
@@ -65,7 +66,7 @@ export default function RewardsPage() {
     {
       id: 4,
       name: "Ampolla reutilitzable",
-      description: "Ampolla d'acer inoxidable amb el logo d'EstalviAigua",
+      description: "Ampolla d'acer inoxidable amb el logo de Dewi",
       points: 250,
       category: "productes",
       image: "/placeholder.svg?height=100&width=100",
@@ -94,7 +95,8 @@ export default function RewardsPage() {
         <Button variant="ghost" size="icon" onClick={() => router.push("/")}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
-        <h1 className="text-2xl font-bold">Botiga de Recompenses</h1>
+        <DewiLogo />
+        <h1 className="text-2xl font-bold ml-2">Botiga de Recompenses</h1>
       </div>
 
       {/* Sección de nivel y puntos */}
