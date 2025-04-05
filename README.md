@@ -151,7 +151,7 @@ For any inquiries or further information, please contact:
 
 - **Edu Olivares** – [GitHub Profile](https://github.com/eduolihez) | [LinkedIn](https://linkedin.com/in/eduolihez)
 - **Marc Lumbreras** – [GitHub Profile](https://github.com/theroboters) | [LinkedIn](https://linkedin.com/in/marclumbreras)
-- **Nil Sentís** – [GitHub Profile](https://github.com/nilsentechnocampus) | [LinkedIn](https://linkedin.com/in/eduolihez)
+- **Nil Sentís** – [GitHub Profile](https://github.com/nilsentechnocampus) | [LinkedIn](https://linkedin.com/in/nil-sent%C3%ADs-bernal-a57172307)
 - **Jan Naranjo** – [LinkedIn](https://linkedin.com/in/jannaranjobanaset)
 - **Martí Jímenez** – [LinkedIn](https://linkedin.com/in/martijimenezcovas)
 ---
