@@ -1,5 +1,5 @@
 <div align="center">
-  <h1></h1>
+  <h1>Dewi App</h1>
   <img src="/docs/img/banner.png" alt="Dewi App Banner">
 </div>
 
