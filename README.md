@@ -1,22 +1,24 @@
-# Dewi App
+<div align="center">
+  <h1>Dewi App</h1>
+  <img src="/docs/img/banner.png" alt="Dewi App Banner">
+</div>
 
 Dewi App is an innovative solution developed for the 8th edition of the TecnoCampus Hackathon. In collaboration with Aigües de Mataró and MICA, Dewi App is designed to empower citizens with the tools they need to understand and reduce water consumption, fostering a culture of responsible water usage.
 
 ## Table of Contents
 
-- [Dewi App](#dewi-app)
-  - [Table of Contents](#table-of-contents)
-  - [Overview](#overview)
-  - [Recent Evolutions](#recent-evolutions)
-  - [Features](#features)
-  - [Technology Stack](#technology-stack)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Project Structure](#project-structure)
-  - [Documentation](#documentation)
-  - [Contributing](#contributing)
-  - [License](#license)
-  - [Acknowledgements](#acknowledgements)
+- [Table of Contents](#table-of-contents)
+- [Overview](#overview)
+- [Recent Evolutions](#recent-evolutions)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
 
 ## Overview
 
