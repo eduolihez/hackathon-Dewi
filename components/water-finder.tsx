@@ -5,6 +5,17 @@ import { MapPin, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
+import dynamic from "next/dynamic"
+
+// Dynamically import the map component to avoid SSR issues with Leaflet
+const MapComponent = dynamic(() => import("./map-component"), {
+  ssr: false,
+  loading: () => (
+    <div className="absolute inset-0 flex items-center justify-center">
+      <p className="text-muted-foreground">Carregant mapa...</p>
+    </div>
+  ),
+})
 
 // Dades simulades de fonts d'aigua
 const waterSources = [
@@ -65,10 +76,7 @@ export function WaterFinder() {
       </div>
 
       <div className="h-[300px] bg-muted rounded-md overflow-hidden relative">
-        {/* Aquí aniria el mapa real amb react-native-maps o similar */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <p className="text-muted-foreground">Mapa de fonts properes</p>
-        </div>
+        <MapComponent filteredSources={filteredSources} />
       </div>
 
       <div className="space-y-2">

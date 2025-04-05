@@ -2,7 +2,18 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { Droplet, Award, User, CloudRain, VolumeIcon as VolumeUp, Volume2, Power, PowerOff, Users, Home } from "lucide-react"
+import {
+  Droplet,
+  User,
+  CloudRain,
+  VolumeIcon as VolumeUp,
+  Volume2,
+  Power,
+  PowerOff,
+  Users,
+  Home,
+  Sprout,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -51,6 +62,19 @@ export default function Dashboard() {
       setFriendsPanelOpen(false)
     }
   }, [isMobile])
+
+  // Definir los 5 niveles con nombres originales relacionados con plantas
+  const levels = [
+    { id: 1, name: "Llavor Conscient", minPoints: 0, maxPoints: 200, color: "text-green-500" },
+    { id: 2, name: "Brot Sostenible", minPoints: 200, maxPoints: 500, color: "text-emerald-500" },
+    { id: 3, name: "Fulla Renovable", minPoints: 500, maxPoints: 1000, color: "text-teal-500" },
+    { id: 4, name: "Arbre Guardià", minPoints: 1000, maxPoints: 2000, color: "text-cyan-600" },
+    { id: 5, name: "Bosc Protector", minPoints: 2000, maxPoints: null, color: "text-blue-700" },
+  ]
+
+  // Encontrar el nivel actual
+  const currentLevel = levels.find((l) => points >= l.minPoints && (!l.maxPoints || points < l.maxPoints)) || levels[0]
+  const nextLevel = levels.find((l) => l.id === currentLevel.id + 1)
 
   return (
     <div className="container mx-auto px-4 py-6 relative">
@@ -180,7 +204,7 @@ export default function Dashboard() {
                           <h4 className="font-medium">Avui plou! No reguis el jardí!</h4>
                         </div>
                         <p className="text-sm text-muted-foreground mt-2">
-                         Avui hi ha un 85% de probabilitat que plogui a Mataró. Recomanem no regar el jardí.
+                          Avui hi ha un 85% de probabilitat que plogui a Mataró. Recomanem no regar el jardí.
                         </p>
                       </CardContent>
                     </Card>
@@ -188,7 +212,7 @@ export default function Dashboard() {
                       <CardContent className="p-4">
                         <div className="flex items-center gap-2">
                           <Droplet className="h-5 w-5 text-sky-500" />
-                          <h4 className="font-medium">Si fiquessis l'aigua al 80%, t'estalviaries 10 €</h4>
+                          <h4 className="font-medium">Si fiquessis l'aigua al 80%, t'estalviaries 10 €</h4>
                         </div>
                         <p className="text-sm text-muted-foreground mt-2">
                           Prova-ho quan et dutxis! Baixa la pressió de la mateixa, vols provar a inclinar 60º l'aixeta?
@@ -211,25 +235,35 @@ export default function Dashboard() {
           <CardContent className="p-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Punts EcoAigua</h2>
-              <Award className="h-6 w-6 text-amber-500" />
+              <Sprout className="h-6 w-6 text-green-500" />
             </div>
             <div className="text-center mb-4">
-              <p className="text-4xl font-bold text-amber-500">{points}</p>
+              <p className="text-4xl font-bold text-green-500">{points}</p>
               <p className="text-sm text-muted-foreground">Punts acumulats</p>
             </div>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span>Nivell actual</span>
-                <span className="font-medium">Eco-Conscient</span>
+                <span className={`font-medium ${currentLevel.color}`}>{currentLevel.name}</span>
               </div>
               <Progress value={65} className="h-2" />
               <div className="flex justify-between text-xs text-muted-foreground">
-                <span>0</span>
-                <span>Proper nivell: 200 pts</span>
+                <span>{currentLevel.minPoints}</span>
+                <span>
+                  Proper nivell: {nextLevel ? `${nextLevel.name} (${nextLevel.minPoints} pts)` : "Nivell màxim"}
+                </span>
               </div>
             </div>
-            <Button className="w-full mt-4" onClick={() => router.push("/rewards")}>
-              Veure recompenses
+            <Button
+              className="w-full mt-4"
+              onClick={() => {
+                router.push("/rewards")
+                // Asegurar que la página se carga desde arriba
+                setTimeout(() => window.scrollTo(0, 0), 100)
+              }}
+            >
+              <ShoppingBag className="h-4 w-4 mr-2" />
+              Botiga de recompenses
             </Button>
           </CardContent>
         </Card>
@@ -265,4 +299,7 @@ export default function Dashboard() {
     </div>
   )
 }
+
+// Importar el icono ShoppingBag
+import { ShoppingBag } from "lucide-react"
 

@@ -16,202 +16,63 @@ export function WorldWaterContainer({
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) {
-      console.error("Canvas element not found")
-      return
-    }
-
-    const ctx = canvas.getContext("2d")
-    if (!ctx) {
-      console.error("Could not get 2D context from canvas")
-      return
-    }
-
-    console.log("Canvas initialized successfully", { width: canvas.width, height: canvas.height })
-
-    // Set canvas dimensions
-    const width = canvas.width
-    const height = canvas.height
-
-    // Load Earth image
-    const earthImage = new Image()
-    earthImage.src = "/images/earth.png" // Use the actual Earth image
-    earthImage.crossOrigin = "anonymous"
-
-    // Animation variables
-    let animationFrameId: number
-    const droplets: { x: number; y: number; size: number; speed: number; opacity: number }[] = []
-
-    // Calculate fill level based on percentage
-    const fillPercentage = Math.min(100, Math.max(0, percentage))
-    const waterLevel = height * 0.6 * (fillPercentage / 100)
-
-    // Wait for the Earth image to load
-    earthImage.onload = () => {
-      setIsLoading(false)
-      // Draw function
-      const draw = () => {
-        // Clear canvas
-        ctx.clearRect(0, 0, width, height)
-
-        // Draw tap/faucet
-        drawTap(ctx, width, height)
-
-        // Draw Earth container with image
-        drawEarthContainerWithImage(ctx, width, height, waterLevel, earthImage)
-
-        // Draw water droplet if flowing
-        if (isFlowing) {
-          // Add new droplet at regular intervals
-          if (Math.random() < 0.03) {
-            // Reduced probability for fewer, more distinct drops
-            droplets.push({
-              x: width * 0.5,
-              y: height * 0.3 + 2, // Position below the tap (adjusted by 2px)
-              size: 12 + Math.random() * 4, // Slightly larger drops
-              speed: 1.5 + Math.random() * 1.5, // Slightly slower for better visibility
-              opacity: 1,
-            })
-          }
-
-          // Draw and update droplets
-          droplets.forEach((droplet, index) => {
-            // Draw droplet
-            ctx.beginPath()
-            ctx.moveTo(droplet.x, droplet.y)
-            ctx.bezierCurveTo(
-              droplet.x - droplet.size / 2,
-              droplet.y + droplet.size / 3,
-              droplet.x - droplet.size / 2,
-              droplet.y + (droplet.size * 2) / 3,
-              droplet.x,
-              droplet.y + droplet.size,
-            )
-            ctx.bezierCurveTo(
-              droplet.x + droplet.size / 2,
-              droplet.y + (droplet.size * 2) / 3,
-              droplet.x + droplet.size / 2,
-              droplet.y + droplet.size / 3,
-              droplet.x,
-              droplet.y,
-            )
-
-            // Fill droplet with gradient
-            const dropGradient = ctx.createLinearGradient(
-              droplet.x - droplet.size / 2,
-              droplet.y,
-              droplet.x + droplet.size / 2,
-              droplet.y + droplet.size,
-            )
-            dropGradient.addColorStop(0, `rgba(120, 210, 255, ${droplet.opacity})`)
-            dropGradient.addColorStop(1, `rgba(0, 165, 233, ${droplet.opacity})`)
-
-            ctx.fillStyle = dropGradient
-            ctx.fill()
-
-            // Add highlight
-            ctx.beginPath()
-            ctx.arc(droplet.x - droplet.size / 4, droplet.y + droplet.size / 3, droplet.size / 6, 0, Math.PI * 2)
-            ctx.fillStyle = `rgba(255, 255, 255, ${droplet.opacity * 0.7})`
-            ctx.fill()
-
-            // Update droplet position
-            droplet.y += droplet.speed
-
-            // Remove droplet if it reaches the water level or fades out
-            if (droplet.y >= height * 0.4 + (height * 0.6 - waterLevel)) {
-              // Create ripple effect when droplet hits water
-              createRipple(ctx, droplet.x, droplet.y, droplet.size, waterLevel)
-              droplets.splice(index, 1)
-            }
-          })
-        }
-
-        // Removed call to drawUsageInfo() as it's no longer needed
-
-        // Continue animation
-        animationFrameId = requestAnimationFrame(draw)
-      }
-
-      // Start animation
-      draw()
-    }
-
-    // Cleanup
-    return () => {
-      cancelAnimationFrame(animationFrameId)
-    }
-  }, [percentage, isFlowing, dailyLimit])
-
-  // Function to draw the tap/faucet
+  // Function to draw the pipe - horizontal pipe with water flowing down
   const drawTap = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
-    const tapWidth = width * 0.4
-    const tapHeight = height * 0.2
-    const tapX = width * 0.3
-    const tapY = height * 0.05 + 2 // Moved down by 2 pixels
+    const pipeX = width * 0.4 // Moved left from 0.5 to 0.4
+    const pipeY = height * 0.15
+    const pipeLength = 40
+    const pipeRadius = 15
 
-    // Draw tap handle
+    // Pipe colors
+    const pipeColor = "#333333"
+    const pipeDarkColor = "#222222"
+    const pipeInnerColor = "#111111"
+
+    // Draw the main horizontal pipe
     ctx.beginPath()
-    ctx.arc(tapX, tapY, 15, 0, Math.PI * 2)
-    const handleGradient = ctx.createLinearGradient(tapX - 15, tapY - 15, tapX + 15, tapY + 15)
-    handleGradient.addColorStop(0, "#a0d8ef")
-    handleGradient.addColorStop(1, "#7cb9d3")
-    ctx.fillStyle = handleGradient
+    ctx.ellipse(pipeX - pipeLength, pipeY, pipeRadius, pipeRadius, 0, 0, Math.PI * 2)
+    ctx.fillStyle = pipeColor
     ctx.fill()
-    ctx.strokeStyle = "#5a9bbd"
+    ctx.strokeStyle = pipeDarkColor
     ctx.lineWidth = 2
     ctx.stroke()
 
-    // Draw tap body
+    // Draw the pipe body (rectangle)
     ctx.beginPath()
-    ctx.rect(tapX - 10, tapY, 20, 15)
-    const bodyGradient = ctx.createLinearGradient(tapX - 10, tapY, tapX + 10, tapY + 15)
-    bodyGradient.addColorStop(0, "#a0d8ef")
-    bodyGradient.addColorStop(1, "#7cb9d3")
-    ctx.fillStyle = bodyGradient
+    ctx.rect(pipeX - pipeLength, pipeY - pipeRadius, pipeLength, pipeRadius * 2)
+    ctx.fillStyle = pipeColor
     ctx.fill()
-    ctx.strokeStyle = "#5a9bbd"
+
+    // Draw the opening (circle)
+    ctx.beginPath()
+    ctx.arc(pipeX, pipeY, pipeRadius, 0, Math.PI * 2)
+    ctx.fillStyle = pipeInnerColor
+    ctx.fill()
+    ctx.strokeStyle = pipeDarkColor
     ctx.lineWidth = 2
     ctx.stroke()
 
-    // Draw tap spout
+    // Draw the inner opening (darker)
     ctx.beginPath()
-    ctx.moveTo(tapX, tapY + 15)
-    ctx.lineTo(tapX, tapY + 25)
-    ctx.lineTo(width * 0.5, tapY + 25)
-    ctx.lineTo(width * 0.5, tapY + 40)
-    ctx.lineWidth = 10
-    ctx.strokeStyle = "#7cb9d3"
-    ctx.stroke()
-
-    // Draw tap outline
-    ctx.beginPath()
-    ctx.moveTo(tapX, tapY + 15)
-    ctx.lineTo(tapX, tapY + 25)
-    ctx.lineTo(width * 0.5, tapY + 25)
-    ctx.lineTo(width * 0.5, tapY + 40)
-    ctx.lineWidth = 2
-    ctx.strokeStyle = "#5a9bbd"
-    ctx.stroke()
-
-    // Draw tap end
-    ctx.beginPath()
-    ctx.arc(width * 0.5, tapY + 40, 5, 0, Math.PI * 2)
-    ctx.fillStyle = "#7cb9d3"
+    ctx.arc(pipeX, pipeY, pipeRadius * 0.7, 0, Math.PI * 2)
+    ctx.fillStyle = "#000000"
     ctx.fill()
-    ctx.strokeStyle = "#5a9bbd"
-    ctx.lineWidth = 1
-    ctx.stroke()
+
+    // Add highlight to the pipe for dimension
+    ctx.beginPath()
+    ctx.ellipse(pipeX - pipeLength, pipeY - pipeRadius * 0.4, pipeRadius * 0.8, pipeRadius * 0.3, 0, 0, Math.PI)
+    ctx.fillStyle = "rgba(255, 255, 255, 0.2)"
+    ctx.fill()
+
+    // Removed the continuous water flow code
   }
 
+  // Update the Earth container function to not require the image
   const drawEarthContainerWithImage = (
     ctx: CanvasRenderingContext2D,
     width: number,
     height: number,
     waterLevel: number,
-    earthImage: HTMLImageElement,
   ) => {
     const earthX = width * 0.5
     const earthY = height * 0.7
@@ -367,7 +228,125 @@ export function WorldWaterContainer({
     }
   }
 
-  // We've removed the drawUsageInfo function as requested
+  // Modify the useEffect to make loading faster
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) {
+      console.error("Canvas element not found")
+      return
+    }
+
+    const ctx = canvas.getContext("2d")
+    if (!ctx) {
+      console.error("Could not get 2D context from canvas")
+      return
+    }
+
+    // Set canvas dimensions
+    const width = canvas.width
+    const height = canvas.height
+
+    // Animation variables
+    let animationFrameId: number
+    const droplets: { x: number; y: number; size: number; speed: number; opacity: number }[] = []
+
+    // Calculate fill level based on percentage
+    const fillPercentage = Math.min(100, Math.max(0, percentage))
+    const waterLevel = height * 0.6 * (fillPercentage / 100)
+
+    // Start drawing immediately without waiting for Earth image
+    setIsLoading(false)
+
+    // Draw function
+    const draw = () => {
+      // Clear canvas
+      ctx.clearRect(0, 0, width, height)
+
+      // Draw tap/faucet
+      drawTap(ctx, width, height)
+
+      // Draw Earth container
+      drawEarthContainerWithImage(ctx, width, height, waterLevel)
+
+      // Draw water droplet if flowing
+      if (isFlowing) {
+        // Add new droplet at regular intervals
+        if (Math.random() < 0.03) {
+          // Reduced probability for fewer, more distinct drops
+          droplets.push({
+            x: width * 0.4, // Updated to match new pipe position (0.4 instead of 0.5)
+            y: height * 0.15 + 5, // Position just below the pipe opening
+            size: 12 + Math.random() * 4, // Slightly larger drops
+            speed: 1.5 + Math.random() * 1.5, // Slightly slower for better visibility
+            opacity: 1,
+          })
+        }
+
+        // Draw and update droplets
+        droplets.forEach((droplet, index) => {
+          // Draw droplet
+          ctx.beginPath()
+          ctx.moveTo(droplet.x, droplet.y)
+          ctx.bezierCurveTo(
+            droplet.x - droplet.size / 2,
+            droplet.y + droplet.size / 3,
+            droplet.x - droplet.size / 2,
+            droplet.y + (droplet.size * 2) / 3,
+            droplet.x,
+            droplet.y + droplet.size,
+          )
+          ctx.bezierCurveTo(
+            droplet.x + droplet.size / 2,
+            droplet.y + (droplet.size * 2) / 3,
+            droplet.x + droplet.size / 2,
+            droplet.y + droplet.size / 3,
+            droplet.x,
+            droplet.y,
+          )
+
+          // Fill droplet with gradient
+          const dropGradient = ctx.createLinearGradient(
+            droplet.x - droplet.size / 2,
+            droplet.y,
+            droplet.x + droplet.size / 2,
+            droplet.y + droplet.size,
+          )
+          dropGradient.addColorStop(0, `rgba(120, 210, 255, ${droplet.opacity})`)
+          dropGradient.addColorStop(1, `rgba(0, 165, 233, ${droplet.opacity})`)
+
+          ctx.fillStyle = dropGradient
+          ctx.fill()
+
+          // Add highlight
+          ctx.beginPath()
+          ctx.arc(droplet.x - droplet.size / 4, droplet.y + droplet.size / 3, droplet.size / 6, 0, Math.PI * 2)
+          ctx.fillStyle = `rgba(255, 255, 255, ${droplet.opacity * 0.7})`
+          ctx.fill()
+
+          // Update droplet position
+          droplet.y += droplet.speed
+
+          // Remove droplet if it reaches the water level or fades out
+          if (droplet.y >= height * 0.4 + (height * 0.6 - waterLevel)) {
+            // Create ripple effect when droplet hits water
+            createRipple(ctx, droplet.x, droplet.y, droplet.size, waterLevel)
+            droplets.splice(index, 1)
+          }
+        })
+      }
+
+      // Continue animation
+      animationFrameId = requestAnimationFrame(draw)
+    }
+
+    // Start animation immediately
+    draw()
+
+    // Cleanup
+    return () => {
+      cancelAnimationFrame(animationFrameId)
+    }
+  }, [percentage, isFlowing, dailyLimit])
 
   return (
     <div className="relative w-[200px] h-[250px]">
