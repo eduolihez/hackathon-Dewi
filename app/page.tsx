@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { Droplet, Award, User, Info, VolumeIcon as VolumeUp, Volume2 } from "lucide-react"
+import { Droplet, Award, User, Info, VolumeIcon as VolumeUp, Volume2, Power, PowerOff, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -13,12 +13,17 @@ import { WaterFinder } from "@/components/water-finder"
 import { VoiceAssistant } from "@/components/voice-assistant"
 import { Challenges } from "@/components/challenges"
 import { useSensorData } from "@/hooks/use-sensor-data"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { useMediaQuery } from "@/hooks/use-mobile"
+import { FriendsPanel } from "@/components/friends-panel"
 
 export default function Dashboard() {
   const router = useRouter()
   const { sensorData, isLoading, error, setSensorData } = useSensorData()
   const [points, setPoints] = useState(120)
   const [voiceActive, setVoiceActive] = useState(false)
+  const [friendsPanelOpen, setFriendsPanelOpen] = useState(false)
+  const isMobile = useMediaQuery("(max-width: 768px)")
 
   // Dades de consum diari (simulades)
   const dailyConsumption = 85 // litres/persona/dia
@@ -28,17 +33,61 @@ export default function Dashboard() {
   // Calcular percentatge d'estalvi
   const savingsPercentage = Math.round(((cataloniaAverage - dailyConsumption) / cataloniaAverage) * 100)
 
+  // Funció per canviar l'estat de l'aixeta
+  const toggleFaucet = () => {
+    if (sensorData) {
+      const newSensorData = {
+        ...sensorData,
+        clau: sensorData.clau === "oberta" ? "tancada" : "oberta",
+      }
+      setSensorData(newSensorData)
+    }
+  }
+
+  // Tancar el panel d'amistats quan es canvia a mòbil
+  useEffect(() => {
+    if (isMobile && friendsPanelOpen) {
+      setFriendsPanelOpen(false)
+    }
+  }, [isMobile])
+
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="container mx-auto px-4 py-6 relative">
       <header className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-2">
           <Droplet className="h-8 w-8 text-sky-500" />
           <h1 className="text-2xl font-bold">EstalviAigua</h1>
         </div>
         <div className="flex items-center gap-4">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant={sensorData?.clau === "oberta" ? "outline" : "ghost"}
+                  size="icon"
+                  onClick={toggleFaucet}
+                  className={sensorData?.clau === "oberta" ? "border-sky-500 text-sky-500" : "text-muted-foreground"}
+                >
+                  {sensorData?.clau === "oberta" ? <Power className="h-5 w-5" /> : <PowerOff className="h-5 w-5" />}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{sensorData?.clau === "oberta" ? "Aixeta oberta" : "Aixeta tancada"}</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
           <Button variant="ghost" size="icon" onClick={() => setVoiceActive(!voiceActive)}>
             {voiceActive ? <Volume2 className="h-5 w-5" /> : <VolumeUp className="h-5 w-5" />}
           </Button>
+
+          <Button
+            variant={friendsPanelOpen ? "default" : "outline"}
+            size="icon"
+            onClick={() => setFriendsPanelOpen(!friendsPanelOpen)}
+            className={friendsPanelOpen ? "bg-sky-500 text-white" : ""}
+          >
+            <Users className="h-5 w-5" />
+          </Button>
+
           <Button variant="outline" onClick={() => router.push("/profile")}>
             <User className="h-5 w-5 mr-2" />
             <span>Perfil</span>
@@ -63,17 +112,7 @@ export default function Dashboard() {
                 variant={sensorData?.clau === "oberta" ? "destructive" : "default"}
                 size="sm"
                 className="mt-2"
-                onClick={() => {
-                  // En una implementación real, esto enviaría una solicitud a la API
-                  if (sensorData) {
-                    const newSensorData = {
-                      ...sensorData,
-                      clau: sensorData.clau === "oberta" ? "tancada" : "oberta",
-                    }
-                    // Simular actualización de datos
-                    setSensorData(newSensorData)
-                  }
-                }}
+                onClick={toggleFaucet}
               >
                 {sensorData?.clau === "oberta" ? "Tancar aixeta" : "Obrir aixeta"}
               </Button>
@@ -164,23 +203,23 @@ export default function Dashboard() {
         </Card>
 
         <Card className="md:col-span-2">
-          <CardContent className="p-6">
-            <h2 className="text-xl font-semibold mb-4">Anàlisi de consum</h2>
-            <div className="h-[250px]">
+          <CardContent className="p-2 sm:p-4 md:p-6">
+            <h2 className="text-xl font-semibold mb-2 md:mb-4 px-2">Anàlisi de consum</h2>
+            <div className={`${isMobile ? "h-[200px]" : "h-[250px]"} overflow-x-auto`}>
               <ConsumptionChart />
             </div>
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="mt-2 md:mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-4 px-2">
               <div className="flex flex-col">
-                <span className="text-sm text-muted-foreground">El teu consum</span>
-                <span className="text-lg font-semibold">{dailyConsumption} L/dia</span>
+                <span className="text-xs sm:text-sm text-muted-foreground">El teu consum</span>
+                <span className="text-sm sm:text-lg font-semibold">{dailyConsumption} L/dia</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-sm text-muted-foreground">Mitjana Mataró</span>
-                <span className="text-lg font-semibold">{mataroAverage} L/dia</span>
+                <span className="text-xs sm:text-sm text-muted-foreground">Mitjana Mataró</span>
+                <span className="text-sm sm:text-lg font-semibold">{mataroAverage} L/dia</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-sm text-muted-foreground">Mitjana Catalunya</span>
-                <span className="text-lg font-semibold">{cataloniaAverage} L/dia</span>
+                <span className="text-xs sm:text-sm text-muted-foreground">Mitjana Catalunya</span>
+                <span className="text-sm sm:text-lg font-semibold">{cataloniaAverage} L/dia</span>
               </div>
             </div>
           </CardContent>
@@ -188,6 +227,9 @@ export default function Dashboard() {
       </div>
 
       {voiceActive && <VoiceAssistant onClose={() => setVoiceActive(false)} />}
+
+      {/* Panel d'amistats */}
+      {friendsPanelOpen && <FriendsPanel onClose={() => setFriendsPanelOpen(false)} />}
     </div>
   )
 }

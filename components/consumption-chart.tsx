@@ -4,6 +4,7 @@ import { useState } from "react"
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Legend } from "recharts"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { useMediaQuery } from "@/hooks/use-mobile"
 
 // Dades simulades amb comparatives
 const dailyData = [
@@ -41,6 +42,7 @@ const yearlyData = [
 
 export function ConsumptionChart() {
   const [period, setPeriod] = useState("daily")
+  const isMobile = useMediaQuery("(max-width: 768px)")
 
   const data = period === "daily" ? dailyData : period === "monthly" ? monthlyData : yearlyData
 
@@ -49,7 +51,7 @@ export function ConsumptionChart() {
   return (
     <div className="h-full">
       <Tabs value={period} onValueChange={setPeriod} className="h-full">
-        <TabsList className="grid grid-cols-3 w-[250px] mb-4">
+        <TabsList className={`grid grid-cols-3 ${isMobile ? "w-full" : "w-[250px]"} mb-2 md:mb-4`}>
           <TabsTrigger value="daily">Diari</TabsTrigger>
           <TabsTrigger value="monthly">Mensual</TabsTrigger>
           <TabsTrigger value="yearly">Anual</TabsTrigger>
@@ -59,36 +61,56 @@ export function ConsumptionChart() {
           <ChartContainer
             config={{
               consumption: {
-                label: "El teu consum",
+                label: isMobile ? "Tu" : "El teu consum",
                 color: "hsl(196, 94%, 48%)",
               },
               mataro: {
-                label: "Mitjana Mataró",
+                label: isMobile ? "Mataró" : "Mitjana Mataró",
                 color: "hsl(217, 91%, 60%)",
               },
               catalunya: {
-                label: "Mitjana Catalunya",
+                label: isMobile ? "CAT" : "Mitjana Catalunya",
                 color: "hsl(142, 71%, 45%)",
               },
             }}
             className="h-full"
           >
-            <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+            <AreaChart
+              data={data}
+              margin={isMobile ? { top: 5, right: 5, left: 0, bottom: 5 } : { top: 10, right: 10, left: 0, bottom: 0 }}
+            >
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="date" axisLine={false} tickLine={false} tickMargin={8} />
+              <XAxis
+                dataKey="date"
+                axisLine={false}
+                tickLine={false}
+                tickMargin={isMobile ? 5 : 8}
+                tick={{ fontSize: isMobile ? 10 : 12 }}
+              />
               <YAxis
                 axisLine={false}
                 tickLine={false}
-                tickMargin={8}
-                label={{
-                  value: yAxisLabel,
-                  angle: -90,
-                  position: "insideLeft",
-                  style: { textAnchor: "middle" },
-                }}
+                tickMargin={isMobile ? 5 : 8}
+                tick={{ fontSize: isMobile ? 10 : 12 }}
+                width={isMobile ? 30 : 40}
+                label={
+                  isMobile
+                    ? null
+                    : {
+                        value: yAxisLabel,
+                        angle: -90,
+                        position: "insideLeft",
+                        style: { textAnchor: "middle", fontSize: 12 },
+                      }
+                }
               />
               <ChartTooltip content={<ChartTooltipContent />} />
-              <Legend />
+              <Legend
+                verticalAlign={isMobile ? "top" : "bottom"}
+                height={isMobile ? 30 : 36}
+                iconSize={isMobile ? 8 : 10}
+                wrapperStyle={{ fontSize: isMobile ? 10 : 12 }}
+              />
               <Area
                 type="monotone"
                 dataKey="consumption"
@@ -96,7 +118,7 @@ export function ConsumptionChart() {
                 fillOpacity={0.2}
                 stroke="var(--color-consumption)"
                 strokeWidth={2}
-                name="El teu consum"
+                name={isMobile ? "Tu" : "El teu consum"}
               />
               <Area
                 type="monotone"
@@ -106,7 +128,7 @@ export function ConsumptionChart() {
                 stroke="var(--color-mataro)"
                 strokeWidth={2}
                 strokeDasharray="5 5"
-                name="Mitjana Mataró"
+                name={isMobile ? "Mataró" : "Mitjana Mataró"}
               />
               <Area
                 type="monotone"
@@ -116,7 +138,7 @@ export function ConsumptionChart() {
                 stroke="var(--color-catalunya)"
                 strokeWidth={2}
                 strokeDasharray="3 3"
-                name="Mitjana Catalunya"
+                name={isMobile ? "CAT" : "Mitjana Catalunya"}
               />
             </AreaChart>
           </ChartContainer>
