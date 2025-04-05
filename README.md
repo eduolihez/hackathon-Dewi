@@ -1,146 +1,159 @@
-<div align="center">
-  <img src="/docs/img/banner.png" alt="Dewi App Banner">
-</div>
+<!-- Banner -->
+<p align="center">
+  <img src="/docs/img/banner.png" alt="Dewi App Banner" width="800"/>
+</p>
 
+# Dewi App
 
-<div align="center">
-  <h1>Dewi App</h1>
-</div>
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Deploy with Vercel](https://img.shields.io/badge/Deploy-Vercel-blue.svg)](https://vercel.com)
+[![Status: Prototype](https://img.shields.io/badge/Status-Prototype-orange.svg)](https://dewi-hackathon.vercel.app)
+[![Build Time](https://img.shields.io/badge/Built_in-24h-red.svg)](https://github.com/eduolihez/hackathon-Dewi)
 
-Dewi App is an innovative solution developed for the 8th edition of the TecnoCampus Hackathon. In collaboration with Aigües de Mataró and MICA, Dewi App is designed to empower citizens with the tools they need to understand and reduce water consumption, fostering a culture of responsible water usage.
-
-## Table of Contents
-
-- [](#)
-- [Table of Contents](#table-of-contents)
-- [Overview](#overview)
-- [Recent Evolutions](#recent-evolutions)
-- [Features](#features)
-- [Technology Stack](#technology-stack)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Documentation](#documentation)
-- [Contributing](#contributing)
-- [License](#license)
-- [Acknowledgements](#acknowledgements)
+---
 
 ## Overview
 
-Dewi App addresses the hackathon challenge **"Apostamos por un uso responsable del agua"** ("We bet on responsible water usage"). The app provides users with a friendly platform to monitor their water consumption, receive actionable insights, and ultimately help promote sustainable water practices.
+**Dewi App** is an innovative prototype developed for the 8th edition of the TecnoCampus Hackathon. It empowers users to monitor and reduce water consumption, promoting responsible usage of water. This is not a complete, production-ready project, but rather a prototype that was crafted in less than **24 hours**.
 
-## Recent Evolutions
+Check out the prototype live: [dewi-hackathon.vercel.app](https://dewi-hackathon.vercel.app)
 
-The repository has undergone significant improvements and rebranding:
-- **New Name & Branding:** The project is now known as **Dewi App**.
-- **Enhanced UI/UX:** Redesigned user interface with modern aesthetics and improved responsiveness.
-- **Expanded Functionality:** Additional components and hooks have been introduced to better manage data visualization and interactivity.
-- **Optimized Performance:** Refactored codebase for faster load times and smoother user experience.
-- **Extended Documentation:** A dedicated `docs` folder is available with in-depth guides, API documentation, and architectural details.
+---
+
+## Table of Contents
+
+- [Dewi App](#dewi-app)
+  - [Overview](#overview)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Tech Stack](#tech-stack)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Roadmap](#roadmap)
+  - [Contributing](#contributing)
+  - [Disclaimer](#disclaimer)
+  - [License](#license)
+  - [Collaborators](#collaborators)
+
+---
 
 ## Features
 
-- **Responsive and Modern Design:** Built using Next.js and Tailwind CSS for a seamless mobile and desktop experience.
-- **Interactive Data Visualization:** Engage with dynamic graphs and charts that display water consumption data clearly.
-- **Actionable Insights:** Receive personalized recommendations to help reduce water usage.
-- **Modular Architecture:** Designed with reusable components and custom hooks for easy scalability.
-- **Sustainability Focus:** Encourages users to adopt responsible water consumption habits.
+- **Water Consumption Monitoring:** View data and insights on water usage.
+- **User Empowerment:** Actionable tips to encourage responsible water usage.
+- **Modern UI/UX:** Built with a responsive design to offer a seamless experience across devices.
+- **Quick Setup:** Prototype built rapidly for demonstration purposes.
 
-## Technology Stack
+---
+
+## Tech Stack
 
 - **Framework:** Next.js
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS
-- **Package Manager:** pnpm (npm or yarn can also be used)
-- **Build Tools:** PostCSS, Vite, and other modern web development tools
-- **Additional Libraries:** Refer to the `package.json` file for a full list of dependencies
+- **Deployment:** Vercel
+
+---
 
 ## Installation
 
-Follow these steps to set up the project locally:
+To run the project locally:
 
-1. **Clone the Repository:**
+1. **Clone the repository:**
 
    ```bash
    git clone https://github.com/eduolihez/hackathon-Dewi.git
    cd hackathon-Dewi
    ```
 
-2. **Install Dependencies:**
+2. **Install dependencies:**
 
-   Using pnpm:
+   Using pnpm (recommended):
    ```bash
    pnpm install
    ```
-
-   Alternatively, using npm:
+   Or using npm:
    ```bash
    npm install
    ```
-
-   Or with yarn:
+   Or using yarn:
    ```bash
    yarn install
    ```
 
+3. **Run the development server:**
+
+   Using pnpm:
+   ```bash
+   pnpm dev
+   ```
+   Or using npm:
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser:**
+
+   Navigate to [http://localhost:3000](http://localhost:3000) to see the app in action.
+
+---
+
 ## Usage
 
-To run Dewi App in development mode, execute one of the following commands:
+Dewi App is designed as a prototype to showcase innovative ideas for water conservation. While exploring the app, please note that some functionalities may be incomplete or simplified due to the rapid development cycle.
 
-- Using pnpm:
-  ```bash
-  pnpm dev
-  ```
+- **Dashboard:** Get an overview of water usage data.
+- **Insights:** Learn tips and suggestions for saving water.
+- **User Settings:** Customize your experience (prototype features).
 
-- Using npm:
-  ```bash
-  npm run dev
-  ```
+---
 
-Once the development server is running, open your browser and navigate to [http://localhost:3000](http://localhost:3000) to view the app.
+## Roadmap
 
-## Project Structure
+Given the rapid development (under 24 hours), future improvements may include:
 
-The repository is organized as follows:
+- Full integration with real-time water usage data.
+- Enhanced user authentication and data persistence.
+- Additional interactive features and more detailed analytics.
+- UI/UX improvements based on user feedback.
 
-- **app/**: Contains the main application code, including pages and layout components.
-- **components/**: Houses reusable React components.
-- **hooks/**: Contains custom React hooks for state management and side effects.
-- **lib/**: Utility functions and helper libraries.
-- **public/**: Static assets such as images, icons, and fonts.
-- **styles/**: Tailwind CSS configurations and custom style definitions.
-- **Configuration Files:**
-  - `next.config.mjs` – Next.js configuration.
-  - `tailwind.config.ts` – Tailwind CSS settings.
-  - `postcss.config.mjs` – PostCSS configuration.
-  - `tsconfig.json` – TypeScript configuration.
-  - `package.json` – Dependency and script definitions.
-
-## Documentation
-
-For additional details—including setup guides, API documentation, and architectural decisions—please refer to the `docs` folder. This folder includes:
-- **Getting Started Guides**
-- **API Documentation**
-- **Design and Architecture Notes**
-- **Changelog and Update History**
+---
 
 ## Contributing
 
-Contributions to Dewi App are welcome. To contribute:
+We welcome contributions and feedback! If you have suggestions or want to help improve the prototype, please follow these guidelines:
 
-1. **Fork the Repository**
-2. **Create a Feature Branch:** Use a descriptive branch name (e.g., `feature/ui-enhancements`).
-3. **Make Your Changes:** Commit your updates with clear messages.
-4. **Open a Pull Request:** Provide a detailed description of your changes and reference any relevant issues.
+1. Fork the repository.
+2. Create a feature branch (`git checkout -b feature/your-feature`).
+3. Commit your changes (`git commit -m 'Add some feature'`).
+4. Push to your branch (`git push origin feature/your-feature`).
+5. Open a pull request describing your changes.
 
-For further details, please consult the contributing guidelines available in `docs/CONTRIBUTING.md` (if provided).
+For major changes, please open an issue first to discuss what you would like to change.
+
+---
+
+## Disclaimer
+
+**Note:** This project is a prototype developed in less than 24 hours as part of the TecnoCampus Hackathon. It is not fully functional or production-ready. All features are subject to further development and refinement.
+
+---
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-## Acknowledgements
+---
 
-- **TecnoCampus Hackathon:** For providing the challenge and platform.
-- **Aigües de Mataró & MICA:** For their collaboration and support.
-- **Contributors:** Thank you to everyone who has contributed to the evolution of Dewi App.
+## Collaborators
+
+For any inquiries or further information, please contact:
+
+- **Edu Olivares** – [GitHub Profile](https://github.com/eduolihez) | [LinkedIn](https://linkedin.com/in/eduolihez)
+- **Marc Lumbreras** – [GitHub Profile](https://github.com/theroboters) | [LinkedIn](https://linkedin.com/in/marclumbreras)
+- **Nil Sentís** – [GitHub Profile](https://github.com/nilsentechnocampus) | [LinkedIn](https://linkedin.com/in/eduolihez)
+- **Jan Naranjo** – [LinkedIn](https://linkedin.com/in/jannaranjobanaset)
+- **Martí Jímenez** – [LinkedIn](https://linkedin.com/in/martijimenezcovas)
+---
+
+*Happy Water Saving!*
