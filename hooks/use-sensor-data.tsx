@@ -45,7 +45,7 @@ export function useSensorData() {
     fetchData()
 
     // Configurar interval per actualitzar dades cada 10 segons
-    const intervalId = setInterval(fetchData, 10000)
+    const intervalId = setInterval(fetchData, 1000)
 
     // Netejar interval al desmuntar
     return () => clearInterval(intervalId)

@@ -23,6 +23,7 @@ import { ConsumptionChart } from "@/components/consumption-chart"
 import { WaterFinder } from "@/components/water-finder"
 import { VoiceAssistant } from "@/components/voice-assistant"
 import { Challenges } from "@/components/challenges"
+import { WaterReservoirs } from "@/components/water-reservoirs"
 import { useSensorData } from "@/hooks/use-sensor-data"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useMediaQuery } from "@/hooks/use-mobile"
@@ -290,6 +291,11 @@ export default function Dashboard() {
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      {/* Sección de estado de las cuencas internas de Cataluña */}
+      <div className="mb-6">
+        <WaterReservoirs />
       </div>
 
       {voiceActive && <VoiceAssistant onClose={() => setVoiceActive(false)} />}

@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, Award, Droplet, Power, PowerOff, Thermometer, Gauge, Waves } from "lucide-react"
+import { ArrowLeft, Award, Droplet, Power, PowerOff, Thermometer, Gauge, Waves, Users, Plus, Minus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -26,11 +26,24 @@ export default function ProfilePage() {
   const [level, setLevel] = useState("Eco-Conscient")
   const [points, setPoints] = useState(120)
   const ambientTemperature = 22 // Temperatura ambient simulada
+  const [householdMembers, setHouseholdMembers] = useState(1)
 
-  // Actualizar el valor personalizado cuando cambia el slider
+  // Límites base por persona
+  const baseLimitPerPerson = 90
+  const maxLimitPerPerson = 200
+
+  // Actualizar el valor personalizado cuando cambia el slider o el número de personas
   useEffect(() => {
     setCustomLimit(monthlyLimit.toString())
   }, [monthlyLimit])
+
+  // Actualizar límites cuando cambia el número de personas
+  useEffect(() => {
+    const newBaseLimit = baseLimitPerPerson * householdMembers
+    setMonthlyLimit(newBaseLimit)
+    setCustomLimit(newBaseLimit.toString())
+    setSliderMax(maxLimitPerPerson * householdMembers)
+  }, [householdMembers])
 
   // Manejar cambios en el input personalizado
   const handleCustomLimitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +59,7 @@ export default function ProfilePage() {
       }
 
       // Actualizar el slider con el valor (limitado al máximo del slider)
-      setMonthlyLimit(Math.min(numValue, 200))
+      setMonthlyLimit(Math.min(numValue, maxLimitPerPerson * householdMembers))
     }
   }
 
@@ -56,6 +69,20 @@ export default function ProfilePage() {
     if (isNaN(numValue) || numValue <= 0) {
       // Si no es un número válido, volver al valor anterior
       setCustomLimit(monthlyLimit.toString())
+    }
+  }
+
+  // Incrementar el número de personas
+  const incrementHouseholdMembers = () => {
+    if (householdMembers < 10) {
+      setHouseholdMembers(householdMembers + 1)
+    }
+  }
+
+  // Decrementar el número de personas
+  const decrementHouseholdMembers = () => {
+    if (householdMembers > 1) {
+      setHouseholdMembers(householdMembers - 1)
     }
   }
 
@@ -274,6 +301,44 @@ export default function ProfilePage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
+              {/* Número de personas en el hogar */}
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <Label htmlFor="household-members">Persones a casa</Label>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={decrementHouseholdMembers}
+                      disabled={householdMembers <= 1}
+                    >
+                      <Minus className="h-4 w-4" />
+                    </Button>
+                    <div className="flex items-center justify-center w-10 h-8 border rounded-md">
+                      <span className="font-medium">{householdMembers}</span>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={incrementHouseholdMembers}
+                      disabled={householdMembers >= 10}
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Users className="h-4 w-4 text-sky-500" />
+                  <div className="text-sm text-muted-foreground">
+                    Els límits de consum s'ajusten automàticament segons el nombre de persones a casa.
+                  </div>
+                </div>
+              </div>
+
+              <Separator />
+
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <Label htmlFor="monthly-limit">Límit mensual de consum</Label>
@@ -292,7 +357,7 @@ export default function ProfilePage() {
                 <Slider
                   id="monthly-limit"
                   min={0}
-                  max={200}
+                  max={maxLimitPerPerson * householdMembers}
                   step={10}
                   value={[monthlyLimit]}
                   onValueChange={(value) => setMonthlyLimit(value[0])}
@@ -301,11 +366,19 @@ export default function ProfilePage() {
 
                 <div className="flex justify-between text-xs text-muted-foreground">
                   <span>0 L</span>
-                  <span>Mitjana: 90 L</span>
-                  <span>{Number.parseInt(customLimit) > 200 ? customLimit : "200"} L</span>
+                  <span>Mitjana: {baseLimitPerPerson * householdMembers} L</span>
+                  <span>{maxLimitPerPerson * householdMembers} L</span>
                 </div>
 
-                {Number.parseInt(customLimit) > 200 && (
+                <div className="flex items-center gap-2">
+                  <Droplet className="h-4 w-4 text-sky-500" />
+                  <div className="text-sm text-muted-foreground">
+                    Límit recomanat per {householdMembers} {householdMembers === 1 ? "persona" : "persones"}:{" "}
+                    {baseLimitPerPerson * householdMembers} litres al mes.
+                  </div>
+                </div>
+
+                {Number.parseInt(customLimit) > maxLimitPerPerson * householdMembers && (
                   <div className="text-xs text-amber-600 flex items-center gap-1">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -322,7 +395,8 @@ export default function ProfilePage() {
                       <line x1="12" y1="9" x2="12" y2="13" />
                       <line x1="12" y1="17" x2="12.01" y2="17" />
                     </svg>
-                    El valor introduït ({customLimit} L) supera el màxim recomanat de 200 L.
+                    El valor introduït ({customLimit} L) supera el màxim recomanat de{" "}
+                    {maxLimitPerPerson * householdMembers} L.
                   </div>
                 )}
               </div>
