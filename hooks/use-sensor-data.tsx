@@ -28,7 +28,7 @@ export function useSensorData() {
             cabdal: Math.random() * 2,
             litres_acumulats: Math.floor(Math.random() * 20) + 80,
             temperatura: Math.floor(Math.random() * 5) + 20,
-            clau: Math.random() > 0.7 ? "oberta" : "tancada",
+            clau: Math.random() > 0.5 ? "oberta" : "tancada", //AIXÒ S'HA DE CANVIAR, JA QUE RETORNARÀ 60,90,180...
           }
 
           setSensorData(mockData)

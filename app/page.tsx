@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { Droplet, Award, User, Info, VolumeIcon as VolumeUp, Volume2, Power, PowerOff, Users } from "lucide-react"
+import { Droplet, Award, User, CloudRain, VolumeIcon as VolumeUp, Volume2, Power, PowerOff, Users, Home } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
-import { WaterDrop } from "@/components/water-drop"
+import { WorldWaterContainer } from "@/components/world-water-container"
 import { ConsumptionChart } from "@/components/consumption-chart"
 import { WaterFinder } from "@/components/water-finder"
 import { VoiceAssistant } from "@/components/voice-assistant"
@@ -24,6 +24,7 @@ export default function Dashboard() {
   const [voiceActive, setVoiceActive] = useState(false)
   const [friendsPanelOpen, setFriendsPanelOpen] = useState(false)
   const isMobile = useMediaQuery("(max-width: 768px)")
+  const [dailyLimit, setDailyLimit] = useState(100) // Limit in liters, customizable from profile
 
   // Dades de consum diari (simulades)
   const dailyConsumption = 85 // litres/persona/dia
@@ -56,9 +57,60 @@ export default function Dashboard() {
       <header className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-2">
           <Droplet className="h-8 w-8 text-sky-500" />
-          <h1 className="text-2xl font-bold">EstalviAigua</h1>
+          {!isMobile && <h1 className="text-2xl font-bold">EstalviAigua</h1>}
         </div>
-        <div className="flex items-center gap-4">
+
+        <nav className="flex items-center gap-2 md:gap-4">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-sky-500">
+                  <Home className="h-5 w-5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Inici</TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setVoiceActive(!voiceActive)}
+                  className={voiceActive ? "text-sky-500" : ""}
+                >
+                  {voiceActive ? <Volume2 className="h-5 w-5" /> : <VolumeUp className="h-5 w-5" />}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Assistent IA</TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setFriendsPanelOpen(!friendsPanelOpen)}
+                  className={friendsPanelOpen ? "text-sky-500" : ""}
+                >
+                  <Users className="h-5 w-5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Amistats</TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={() => router.push("/profile")}>
+                  <User className="h-5 w-5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Perfil</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </nav>
+
+        <div className="flex items-center">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -74,33 +126,16 @@ export default function Dashboard() {
               <TooltipContent>{sensorData?.clau === "oberta" ? "Aixeta oberta" : "Aixeta tancada"}</TooltipContent>
             </Tooltip>
           </TooltipProvider>
-
-          <Button variant="ghost" size="icon" onClick={() => setVoiceActive(!voiceActive)}>
-            {voiceActive ? <Volume2 className="h-5 w-5" /> : <VolumeUp className="h-5 w-5" />}
-          </Button>
-
-          <Button
-            variant={friendsPanelOpen ? "default" : "outline"}
-            size="icon"
-            onClick={() => setFriendsPanelOpen(!friendsPanelOpen)}
-            className={friendsPanelOpen ? "bg-sky-500 text-white" : ""}
-          >
-            <Users className="h-5 w-5" />
-          </Button>
-
-          <Button variant="outline" onClick={() => router.push("/profile")}>
-            <User className="h-5 w-5 mr-2" />
-            <span>Perfil</span>
-          </Button>
         </div>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <Card className="md:col-span-1">
           <CardContent className="p-6 flex flex-col items-center justify-center">
-            <WaterDrop
-              percentage={(dailyConsumption / cataloniaAverage) * 100}
+            <WorldWaterContainer
+              percentage={(dailyConsumption / dailyLimit) * 100}
               isFlowing={sensorData?.clau === "oberta"}
+              dailyLimit={dailyLimit}
             />
             <div className="mt-4 text-center">
               <h2 className="text-xl font-semibold">Consum actual</h2>
@@ -126,7 +161,7 @@ export default function Dashboard() {
               <TabsList className="grid grid-cols-3 mb-4">
                 <TabsTrigger value="challenges">Reptes</TabsTrigger>
                 <TabsTrigger value="waterfinder">WaterFinder</TabsTrigger>
-                <TabsTrigger value="education">Educació</TabsTrigger>
+                <TabsTrigger value="education">Recursos</TabsTrigger>
               </TabsList>
               <TabsContent value="challenges">
                 <Challenges />
@@ -136,33 +171,30 @@ export default function Dashboard() {
               </TabsContent>
               <TabsContent value="education">
                 <div className="space-y-4">
-                  <h3 className="text-lg font-medium">Mòduls educatius</h3>
+                  <h3 className="text-lg font-medium">Recomanacions</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <Card>
                       <CardContent className="p-4">
                         <div className="flex items-center gap-2">
-                          <Info className="h-5 w-5 text-sky-500" />
-                          <h4 className="font-medium">Cicle de l'aigua</h4>
+                          <CloudRain className="h-5 w-5 text-sky-500" />
+                          <h4 className="font-medium">Avui plou! No reguis el jardí!</h4>
                         </div>
                         <p className="text-sm text-muted-foreground mt-2">
-                          Aprèn sobre el cicle natural de l'aigua i la seva importància.
+                         Avui hi ha un 85% de probabilitat que plogui a Mataró. Recomanem no regar el jardí.
                         </p>
-                        <Button variant="link" className="px-0 mt-2">
-                          Iniciar mòdul
-                        </Button>
                       </CardContent>
                     </Card>
                     <Card>
                       <CardContent className="p-4">
                         <div className="flex items-center gap-2">
-                          <Info className="h-5 w-5 text-sky-500" />
-                          <h4 className="font-medium">Impacte ambiental</h4>
+                          <Droplet className="h-5 w-5 text-sky-500" />
+                          <h4 className="font-medium">Si fiquessis l'aigua al 80%, t'estalviaries 10 €</h4>
                         </div>
                         <p className="text-sm text-muted-foreground mt-2">
-                          Descobreix com el consum d'aigua afecta el medi ambient.
+                          Prova-ho quan et dutxis! Baixa la pressió de la mateixa, vols provar a inclinar 60º l'aixeta?
                         </p>
                         <Button variant="link" className="px-0 mt-2">
-                          Iniciar mòdul
+                          Posar-ho a 60º!
                         </Button>
                       </CardContent>
                     </Card>
