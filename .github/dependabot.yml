@@ -1,0 +1,16 @@
+version: 2
+
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 5
+    groups:
+      dependencias-menores:
+        update-types:
+          - "minor"
+          - "patch"

@@ -1,0 +1,36 @@
+name: "Dependabot auto-merge"
+
+# Aviso: este repo no tiene workflow de CI/tests todavía, así que el
+# auto-merge no espera ninguna comprobación antes de fusionar un PR de
+# parche/minor. Añadir un workflow de test aquí es lo que le daría un
+# freno real a esto.
+
+on:
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Leer metadatos del PR de Dependabot
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Auto-aprobar y activar auto-merge (squash)
+        if: |
+          steps.metadata.outputs.update-type != 'version-update:semver-major' ||
+          steps.metadata.outputs.package-ecosystem == 'github_actions'
+        run: |
+          gh pr review --approve "$PR_URL"
+          gh pr merge --squash --auto "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
