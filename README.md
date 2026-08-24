@@ -18,6 +18,11 @@
 
 Check out the prototype live: [dewi-hackathon.vercel.app](https://dewi-hackathon.vercel.app)
 
+> **Note on `Prototip/`:** that folder holds the original hackathon-night build —
+> the Arduino sketch and Python scripts for the physical water-flow sensor, plus
+> the first version of the web app. It's kept for history; the app at the repo
+> root is the polished submission described in this README.
+
 ---
 
 ## Table of Contents
@@ -68,26 +73,16 @@ To run the project locally:
 
 2. **Install dependencies:**
 
-   Using pnpm (recommended):
+   The committed lockfile is npm's, so that's the reproducible path:
    ```bash
-   pnpm install
+   npm install --legacy-peer-deps
    ```
-   Or using npm:
-   ```bash
-   npm install
-   ```
-   Or using yarn:
-   ```bash
-   yarn install
-   ```
+   `--legacy-peer-deps` is required because `react-day-picker@8.10.1` hasn't
+   published peer ranges covering React 19 / date-fns 4 yet, even though both
+   work fine here.
 
 3. **Run the development server:**
 
-   Using pnpm:
-   ```bash
-   pnpm dev
-   ```
-   Or using npm:
    ```bash
    npm run dev
    ```
