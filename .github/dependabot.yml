@@ -1,10 +1,23 @@
+# ===========================================================================
+#  Dependabot — Dewi App
+#
+#  Este repositorio es un prototipo de hackathon: cumplio su proposito, esta
+#  desplegado y no tiene desarrollo activo. Interesa que las dependencias
+#  reciban parches de seguridad, pero NO migrarlo a versiones mayores
+#  (Tailwind 3 -> 4, zod 3 -> 4, TypeScript 5 -> 7...): eso es trabajo de
+#  migracion real, con riesgo de romper la demo, a cambio de nada.
+#
+#  Por eso los saltos mayores estan ignorados explicitamente. Sin este
+#  bloque, Dependabot los reabre cada semana y el repositorio acumula
+#  pull requests que nadie va a fusionar, dando aspecto de abandono.
+# ===========================================================================
 version: 2
 
 updates:
   # --- GitHub Actions (.github/workflows/) --------------------------------
-  # Anadido: dependabot-auto-merge.yml usa dependabot/fetch-metadata, y esa
-  # action tambien envejece. Sin este bloque, el propio mecanismo que mantiene
-  # al dia las dependencias se quedaba atras sin avisar.
+  # dependabot-auto-merge.yml usa dependabot/fetch-metadata, y esa action
+  # tambien envejece. Aqui si se aceptan versiones mayores: son pocas y
+  # rara vez rompen nada.
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -17,6 +30,7 @@ updates:
         patterns:
           - "*"
 
+  # --- npm, raiz del proyecto ---------------------------------------------
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -25,13 +39,16 @@ updates:
     commit-message:
       prefix: "deps"
     open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
     groups:
       dependencias-menores:
         update-types:
           - "minor"
           - "patch"
 
-  # Sub-proyecto anidado con su propio package.json
+  # --- npm, sub-proyecto anidado con su propio package.json ---------------
   - package-ecosystem: "npm"
     directory: "/Prototip/prototip-web"
     schedule:
@@ -40,6 +57,9 @@ updates:
     commit-message:
       prefix: "deps(prototip-web)"
     open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
     groups:
       dependencias-menores:
         update-types:
