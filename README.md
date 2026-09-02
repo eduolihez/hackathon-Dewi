@@ -1,6 +1,6 @@
 <!-- Banner -->
 <p align="center">
-  <img src="/docs/img/banner.png" alt="Dewi App Banner" width="800"/>
+  <img src="docs/img/banner.png" alt="Dewi App Banner" width="800"/>
 </p>
 
 # Dewi App
