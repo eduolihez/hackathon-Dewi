@@ -1,6 +1,22 @@
 version: 2
 
 updates:
+  # --- GitHub Actions (.github/workflows/) --------------------------------
+  # Anadido: dependabot-auto-merge.yml usa dependabot/fetch-metadata, y esa
+  # action tambien envejece. Sin este bloque, el propio mecanismo que mantiene
+  # al dia las dependencias se quedaba atras sin avisar.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "ci"
+    groups:
+      actions:
+        patterns:
+          - "*"
+
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
