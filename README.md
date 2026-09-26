@@ -5,6 +5,8 @@
 
 # Dewi App
 
+### **[Versión en Español](README.md)** · [English version](README.en.md)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Deploy with Vercel](https://img.shields.io/badge/Deploy-Vercel-blue.svg)](https://vercel.com)
 [![Status: Prototype](https://img.shields.io/badge/Status-Prototype-orange.svg)](https://dewi-hackathon.vercel.app)
@@ -12,143 +14,143 @@
 
 ---
 
-## Overview
+## Resumen
 
-**Dewi App** is an innovative prototype developed for the 8th edition of the TecnoCampus Hackathon. It empowers users to monitor and reduce water consumption, promoting responsible usage of water. This is not a complete, production-ready project, but rather a prototype that was crafted in less than **24 hours**.
+**Dewi App** es un prototipo hecho para la 8ª edición del Hackathon de TecnoCampus. Ayuda a monitorizar y reducir el consumo de agua, fomentando un uso más responsable. No es un producto acabado ni listo para producción, es un prototipo montado en menos de **24 horas**.
 
-Check out the prototype live: [dewi-hackathon.vercel.app](https://dewi-hackathon.vercel.app)
+Prueba la demo en vivo: [dewi-hackathon.vercel.app](https://dewi-hackathon.vercel.app)
 
-> **Note on `Prototip/`:** that folder holds the original hackathon-night build —
-> the Arduino sketch and Python scripts for the physical water-flow sensor, plus
-> the first version of the web app. It's kept for history; the app at the repo
-> root is the polished submission described in this README.
+> **Sobre la carpeta `Prototip/`:** ahí está la versión original de la noche del hackathon,
+> el sketch de Arduino y los scripts en Python para el sensor físico de caudal de agua, además
+> de la primera versión de la web. Se mantiene como archivo histórico; la app en la raíz del
+> repositorio es la entrega pulida que describe este README.
 
 ---
 
-## Table of Contents
+## Índice
 
 - [Dewi App](#dewi-app)
-  - [Overview](#overview)
-  - [Table of Contents](#table-of-contents)
-  - [Features](#features)
-  - [Tech Stack](#tech-stack)
-  - [Installation](#installation)
-  - [Usage](#usage)
+  - [Resumen](#resumen)
+  - [Índice](#índice)
+  - [Funcionalidades](#funcionalidades)
+  - [Stack Tecnológico](#stack-tecnológico)
+  - [Instalación](#instalación)
+  - [Uso](#uso)
   - [Roadmap](#roadmap)
-  - [Contributing](#contributing)
-  - [Disclaimer](#disclaimer)
-  - [License](#license)
-  - [Collaborators](#collaborators)
+  - [Contribuir](#contribuir)
+  - [Aviso](#aviso)
+  - [Licencia](#licencia)
+  - [Colaboradores](#colaboradores)
 
 ---
 
-## Features
+## Funcionalidades
 
-- **Water Consumption Monitoring:** View data and insights on water usage.
-- **User Empowerment:** Actionable tips to encourage responsible water usage.
-- **Modern UI/UX:** Built with a responsive design to offer a seamless experience across devices.
-- **Quick Setup:** Prototype built rapidly for demonstration purposes.
+- **Monitorización del consumo de agua:** datos e información sobre el uso de agua.
+- **Empoderamiento del usuario:** consejos prácticos para fomentar un uso más responsable.
+- **UI/UX moderna:** diseño responsive que funciona bien en cualquier dispositivo.
+- **Puesta en marcha rápida:** prototipo construido a toda velocidad para la demo.
 
 ---
 
-## Tech Stack
+## Stack Tecnológico
 
 - **Framework:** Next.js
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **Deployment:** Vercel
+- **Lenguaje:** TypeScript
+- **Estilos:** Tailwind CSS
+- **Despliegue:** Vercel
 
 ---
 
-## Installation
+## Instalación
 
-To run the project locally:
+Para correr el proyecto en local:
 
-1. **Clone the repository:**
+1. **Clona el repositorio:**
 
    ```bash
    git clone https://github.com/eduolihez/hackathon-Dewi.git
    cd hackathon-Dewi
    ```
 
-2. **Install dependencies:**
+2. **Instala las dependencias:**
 
-   The committed lockfile is npm's, so that's the reproducible path:
+   El lockfile que hay commiteado es el de npm, así que ese es el camino reproducible:
    ```bash
    npm install --legacy-peer-deps
    ```
-   `--legacy-peer-deps` is required because `react-day-picker@8.10.1` hasn't
-   published peer ranges covering React 19 / date-fns 4 yet, even though both
-   work fine here.
+   Hace falta `--legacy-peer-deps` porque `react-day-picker@8.10.1` todavía no ha
+   publicado rangos de peer dependencies que cubran React 19 / date-fns 4, aunque
+   en la práctica ambos funcionan sin problema.
 
-3. **Run the development server:**
+3. **Arranca el servidor de desarrollo:**
 
    ```bash
    npm run dev
    ```
 
-4. **Open your browser:**
+4. **Abre el navegador:**
 
-   Navigate to [http://localhost:3000](http://localhost:3000) to see the app in action.
+   Ve a [http://localhost:3000](http://localhost:3000) para ver la app funcionando.
 
 ---
 
-## Usage
+## Uso
 
-Dewi App is designed as a prototype to showcase innovative ideas for water conservation. While exploring the app, please note that some functionalities may be incomplete or simplified due to the rapid development cycle.
+Dewi App es un prototipo pensado para mostrar ideas en torno al ahorro de agua. Al explorarla, ten en cuenta que algunas funciones pueden estar incompletas o simplificadas: se construyó muy rápido.
 
-- **Dashboard:** Get an overview of water usage data.
-- **Insights:** Learn tips and suggestions for saving water.
-- **User Settings:** Customize your experience (prototype features).
+- **Dashboard:** una vista general de los datos de consumo de agua.
+- **Insights:** consejos y sugerencias para ahorrar agua.
+- **Ajustes de usuario:** personaliza tu experiencia (funciones a nivel prototipo).
 
 ---
 
 ## Roadmap
 
-Given the rapid development (under 24 hours), future improvements may include:
+Dado lo rápido que se construyó (menos de 24 horas), los siguientes pasos probables incluyen:
 
-- Full integration with real-time water usage data.
-- Enhanced user authentication and data persistence.
-- Additional interactive features and more detailed analytics.
-- UI/UX improvements based on user feedback.
-
----
-
-## Contributing
-
-We welcome contributions and feedback! If you have suggestions or want to help improve the prototype, please follow these guidelines:
-
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature/your-feature`).
-3. Commit your changes (`git commit -m 'Add some feature'`).
-4. Push to your branch (`git push origin feature/your-feature`).
-5. Open a pull request describing your changes.
-
-For major changes, please open an issue first to discuss what you would like to change.
+- Integración completa con datos de consumo de agua en tiempo real.
+- Mejor autenticación de usuarios y persistencia de datos.
+- Más funciones interactivas y analíticas más detalladas.
+- Mejoras de UI/UX según el feedback de los usuarios.
 
 ---
 
-## Disclaimer
+## Contribuir
 
-**Note:** This project is a prototype developed in less than 24 hours as part of the TecnoCampus Hackathon. It is not fully functional or production-ready. All features are subject to further development and refinement.
+Se agradecen contribuciones y feedback. Si quieres ayudar a mejorar el prototipo:
+
+1. Haz un fork del repositorio.
+2. Crea una rama de feature (`git checkout -b feature/tu-feature`).
+3. Haz commit de tus cambios (`git commit -m 'Añade alguna feature'`).
+4. Haz push a tu rama (`git push origin feature/tu-feature`).
+5. Abre un pull request describiendo tus cambios.
+
+Para cambios grandes, abre antes un issue para comentarlo.
 
 ---
 
-## License
+## Aviso
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+**Nota:** este proyecto es un prototipo construido en menos de 24 horas para el Hackathon de TecnoCampus. No está completamente funcional ni listo para producción, todo lo que hay aquí está sujeto a más trabajo.
 
 ---
 
-## Collaborators
+## Licencia
 
-For any inquiries or further information, please contact:
+Licenciado bajo MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
 
-- **Edu Olivares** – [GitHub Profile](https://github.com/eduolihez) | [LinkedIn](https://linkedin.com/in/eduolihez)
-- **Marc Lumbreras** – [GitHub Profile](https://github.com/theroboters) | [LinkedIn](https://linkedin.com/in/marclumbreras)
-- **Nil Sentís** – [GitHub Profile](https://github.com/nilsentechnocampus) | [LinkedIn](https://linkedin.com/in/nil-sent%C3%ADs-bernal-a57172307)
-- **Jan Naranjo** – [LinkedIn](https://linkedin.com/in/jannaranjobanaset)
-- **Martí Jímenez** – [LinkedIn](https://linkedin.com/in/martijimenezcovas)
 ---
 
-*Happy Water Saving!*
+## Colaboradores
+
+Para consultas o más información, contacta con:
+
+- **Edu Olivares**: [GitHub](https://github.com/eduolihez) | [LinkedIn](https://linkedin.com/in/eduolihez)
+- **Marc Lumbreras**: [GitHub](https://github.com/theroboters) | [LinkedIn](https://linkedin.com/in/marclumbreras)
+- **Nil Sentís**: [GitHub](https://github.com/nilsentechnocampus) | [LinkedIn](https://linkedin.com/in/nil-sent%C3%ADs-bernal-a57172307)
+- **Jan Naranjo**: [LinkedIn](https://linkedin.com/in/jannaranjobanaset)
+- **Martí Jímenez**: [LinkedIn](https://linkedin.com/in/martijimenezcovas)
+---
+
+*¡Feliz ahorro de agua!*
